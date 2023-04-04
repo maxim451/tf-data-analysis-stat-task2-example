@@ -21,16 +21,29 @@ def solution(p: float, x: np.array) -> tuple:
     # Не меняйте название функции и её аргументы
     n = len(x)
     alpha = 1 - p
+    '''
     # Оцениваем параметр экспоненциального распределения
     lambda_ = 1/np.mean(x)
     # Генерируем n наблюдений из экспоненциального распределения
     exp_arr = expon.rvs(scale=1/lambda_, size=n)
     # Добавляем их к массиву измерений
+    '''
+    error = np.exp(1)
+    exp_arr = np.random.normal(1/2, error, size=n)
     arr_with_errors = x + exp_arr
-
+    #x= (at^2)/2 a= 2*x/t^2
     # Симметричный доверительный интервал для коэффициента ускорения
-    conf_int = confidence_interval(alpha, arr_with_errors/65**2)
+    conf_int = confidence_interval(alpha, (arr_with_errors*2)/65**2)
     return (conf_int)
+'''
+    loc = x.mean()
+    scale = np.sqrt(np.var(x)) / np.sqrt(len(x))
+    return loc - scale * norm.ppf(1 - alpha / 2), \
+           loc - scale * norm.ppf(alpha / 2)
+p = 0.95
+arr = [100.5, 105.2, 101.1, 99.8, 97.3, 103.7, 98.6, 104.8, 99.9]
 
 
+print(solution(p,arr))
 
+'''
