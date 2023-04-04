@@ -21,7 +21,7 @@ def solution(p: float, x: np.array) -> tuple:
     # Не меняйте название функции и её аргументы
     n = len(x)
     alpha = 1 - p
-    '''
+   
     # Оцениваем параметр экспоненциального распределения
     lambda_ = 1/np.mean(x)
     # Генерируем n наблюдений из экспоненциального распределения
@@ -30,6 +30,7 @@ def solution(p: float, x: np.array) -> tuple:
     '''
     error = np.exp(1)
     exp_arr = np.random.normal(1/2, error, size=n)
+    '''
     arr_with_errors = x + exp_arr
     #x= (at^2)/2 a= 2*x/t^2
     # Симметричный доверительный интервал для коэффициента ускорения
