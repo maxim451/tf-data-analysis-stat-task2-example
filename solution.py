@@ -1,17 +1,25 @@
 import pandas as pd
 import numpy as np
 
-from scipy.stats import norm
+from scipy.stats import chi2
 
 
-chat_id = 123456 # Ваш chat ID, не меняйте название переменной
+chat_id = 436801091 # Ваш chat ID, не меняйте название переменной
 
 def solution(p: float, x: np.array) -> tuple:
     # Измените код этой функции
     # Это будет вашим решением
     # Не меняйте название функции и её аргументы
+    n = len(x)
+    t = 65
+    x_sum = np.sum(x)
     alpha = 1 - p
-    loc = x.mean()
-    scale = np.sqrt(np.var(x)) / np.sqrt(len(x))
-    return loc - scale * norm.ppf(1 - alpha / 2), \
-           loc - scale * norm.ppf(alpha / 2)
+
+    a = (2/(n*t**2))*x_sum
+    e = x - a * t**2 / 2
+    S2 = np.sum(e**2) / (n - 1)
+    t_quantile = t.ppf(1 - alpha / 2, n - 1)
+    chi2_quantile = chi2.ppf(1 - alpha / 2, 1)
+    left = a - t_quantile * np.sqrt(S2 / (n * t**2)) * np.sqrt(chi2_quantile)
+    right = a + t_quantile * np.sqrt(S2 / (n * t**2)) * np.sqrt(chi2_quantile)
+    return (left, right)
